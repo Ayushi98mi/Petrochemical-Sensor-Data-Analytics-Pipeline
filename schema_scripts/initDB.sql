@@ -28,7 +28,7 @@ GO
 CREATE DATABASE PetrochemicalAnalytics;
 GO
 
-USE PetrochemicalAnalyticse;
+USE PetrochemicalAnalytics;
 GO
 
 -- Create Schemas
