@@ -3,7 +3,6 @@ End-to-end data engineering &amp; analytics project on petrochemical sensor data
 
 
 ## Data Source
-## Dataset
 
 - **Dataset:** Petrochemical Process Optimization & Maintenance
 - **Source:** Kaggle
@@ -50,12 +49,13 @@ End-to-end data engineering &amp; analytics project on petrochemical sensor data
 
 ## SQL Transformations
 
-- Duplicate Removal
+- Duplicate Removal using `ROW_NUMBER()`
 - NULL Handling
-- Data Standardization
-- Data Type Conversion
-- Dimension Creation
+- Data Standardization (`UPPER()`, `TRIM()`)
+- Data Type Conversion (`TRY_CONVERT()`)
+- Dimension Table Creation
 - Fact Table Creation
+- Surrogate Key Generation using `ROW_NUMBER()`
 
 # Data Flow Diagram
 
@@ -102,5 +102,9 @@ The Gold layer follows a Star Schema consisting of:
   <img width="947" height="1052" alt="Star_Schema drawio" src="https://github.com/user-attachments/assets/95de89c7-4999-4629-9dca-8e7aee53b55c" />
 
 
+## Data Catalog
 
+Detailed description of all Gold Layer tables and columns is available here:
+
+docs/data_catalog.md
 
