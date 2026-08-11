@@ -134,7 +134,46 @@ The Gold layer follows a Star Schema consisting of:
   # Star Schema
   <img width="947" height="1052" alt="Star_Schema drawio" src="https://github.com/user-attachments/assets/95de89c7-4999-4629-9dca-8e7aee53b55c" />
 
+## Key Insights & Business Recommendations
 
+### 1. Unit Performance is Well-Balanced
+Total yield across the three units is closely comparable (Ethylene: 269,602 
+tons, Ammonia: 268,543 tons, Methanol: 263,936 tons — within ~2% of each 
+other). This suggests no single unit is significantly underutilized, and 
+production capacity appears well-distributed across the plant.
+
+### 2. Methanol_Complex_03 Needs Energy Efficiency Review
+Methanol_Complex_03 has the **highest average energy intensity** (2.89) 
+despite producing the **lowest yield** of the three units. 
+**Recommendation:** Prioritize this unit for an energy audit — investigate 
+whether outdated equipment, suboptimal reactor conditions, or catalyst 
+performance is driving the higher energy consumption relative to output. 
+Even a small efficiency improvement here could yield disproportionate 
+cost savings, since it is both the biggest energy consumer per ton and 
+the lowest producer.
+
+### 3. Iron_Standard_V5 is the Top-Performing Catalyst
+Iron_Standard_V5 shows the highest average product yield (80.27 tons) 
+among the three catalyst types used. 
+**Recommendation:** If Iron_Standard_V5 is not already the primary 
+catalyst across all units, consider testing its wider adoption — 
+particularly in Methanol_Complex_03 — to evaluate whether catalyst 
+choice is a contributing factor to that unit's lower yield and higher 
+energy intensity.
+
+### 4. Continuous, Balanced Monitoring Confirms Data Reliability
+Sensor readings are near-evenly split across shifts (Night: 3,334, 
+Morning: 3,333, Evening: 3,332), confirming consistent 24/7 monitoring 
+with no data collection gaps in any shift — a good sign for the 
+reliability of any trend analysis built on this dataset.
+
+### Suggested Next Steps
+- Cross-reference `Sensor_Health_Index` and `Catalyst_Age_Days` for 
+  Methanol_Complex_03 specifically, to check whether aging equipment 
+  or catalyst degradation is contributing to its lower efficiency.
+- Run a controlled comparison of catalyst types within a single unit 
+  (if operationally feasible) to isolate whether yield differences are 
+  driven by catalyst choice or unit-specific conditions.
 ## Data Catalog
 
 Detailed description of all Gold Layer tables and columns is available here:
