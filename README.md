@@ -18,14 +18,14 @@ End-to-end data engineering &amp; analytics project on petrochemical sensor data
 <img width="1191" height="771" alt="DATA_ARCHITECTURE drawio" src="https://github.com/user-attachments/assets/495da2bb-2fcf-446f-a33a-699aede2e416" />
 
 
-- ## Tech Stack
-
+## Tech Stack
 - SQL Server
 - SQL
-- Python (Pandas, Matplotlib)
-- Power BI
+- Power BI - planned for exploratory analysis, upcoming*
 - Git & GitHub
 - Draw.io (Architecture & Star Schema)
+
+*Python (Pandas, Matplotlib) — planned for exploratory analysis, upcoming*
 
  ## Medallion Architecture
 
@@ -72,7 +72,9 @@ Checked for exact duplicate records based on the combination of
 `Timestamp`, `Unit_Name`, and `Catalyst_Type` (these three columns 
 together define a unique operational event).
 
-**Result:** 2 duplicate combinations found:
+**Result:** 2 duplicate combinations found on initial raw-text comparison 
+(a 3rd hidden duplicate was later discovered once Timestamp and Unit_Name 
+were standardized during cleaning):
 - `01-01-2020 20:00` | Ethylene_Plant_01 | Cobalt_Premium_Z2
 - `13-02-2020 12:00` | Ammonia_Unit_02 | Cobalt_Premium_Z2
 
@@ -84,10 +86,41 @@ Checked all 16 columns for missing (NULL) values.
 - `Reactor_Temp_C`
 - `Catalyst_Age_Days`
 
- ### Resolution
+### 3. Range & Negative Value Validation
+Checked business-logical bounds on key sensor readings:
+- `Sensor_Health_Index` should be between 0 and 1
+- `Valve_Opening_Percent` should be between 0 and 100
+- No numeric column should contain negative values, except `Ambient_Temp_C` 
+  (which can legitimately be negative in winter conditions)
+
+**Result:**
+- `Sensor_Health_Index`: 6 rows out of range (0–1), including 2 negative values
+- `Valve_Opening_Percent`: 0 rows out of range — no issue found
+- Negative values across all other columns: 5 total (3 in `Catalyst_Age_Days`, 
+  2 in `Sensor_Health_Index`)
+
+### 4. Text Standardization Check (Case & Spacing)
+Checked `Unit_Name` and `Catalyst_Type` for leading/trailing spaces and 
+case inconsistencies (e.g. `Ethylene_Plant_01` vs `ETHYLENE_plant_01`), 
+using `TRIM()` for spacing and a `VARBINARY` cast for case-sensitive 
+comparison, since SQL Server is case-insensitive by default.
+
+**Result:**
+- Spacing: 0 issues found
+- Case inconsistencies: 8 raw variants found across 3 real Unit_Name values, 
+  and similar variants in `Catalyst_Type`
+
+### Resolution
 These issues were addressed in the Silver layer:
-- Duplicate rows were removed using `ROW_NUMBER()` window function
-- NULL values were handled using appropriate SQL transformations and default business rules during Silver layer processing.
+- **Duplicates** were removed using a `ROW_NUMBER()` window function, 
+  partitioned on the *standardized* (case-normalized, converted) versions 
+  of Timestamp, Unit_Name, and Catalyst_Type — not the raw values — to 
+  ensure hidden duplicates were also caught.
+- **NULL and out-of-range values** were imputed using Unit-wise averages, 
+  calculated only from valid, in-range readings (invalid values were 
+  excluded from the average calculation itself).
+- **Text fields** were standardized using `UPPER(TRIM())` to merge all 
+  case/spacing variants into a single consistent value per category.
 
 - ## Gold Layer
 
