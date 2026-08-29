@@ -184,5 +184,5 @@ B.Tech, Chemical Engineering — Indian Institute of Technology, Jammu (2023–2
 I'm a Chemical Engineering undergraduate exploring the intersection of process engineering and data analytics. This project reflects that interest — applying data pipeline design, SQL, and statistical analysis to a real industrial (petrochemical) context, rather than a generic dataset.
 
 - GitHub: [Ayushi98mi](https://github.com/Ayushi98mi)
-- LinkedIn: *([add your link here](https://www.linkedin.com/in/ayushi-bajpai-49587b292/))*
+- LinkedIn: *(https://www.linkedin.com/in/ayushi-bajpai-49587b292/)*
 - Email: ayushib306@gmail.com
